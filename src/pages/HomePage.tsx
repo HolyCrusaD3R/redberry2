@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import Header from "../components/Header";
+import TaskPage from "../components/TaskPage";
 
 function HomePage() {
   return (
     <>
-      Hello <Link to={"/about"}>About</Link>
+      <Header />
+      <TaskPage />
     </>
   );
 }
