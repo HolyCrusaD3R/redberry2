@@ -7,10 +7,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Build output
 dist
 dist-ssr
-*.local
+.out
+.output
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +35,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tailwind
+.tailwind-cache
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite
+.cache
+
+# Others
+npm-packages-offline-cache
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
