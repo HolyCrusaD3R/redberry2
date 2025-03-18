@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import apiKey from "../keys/apiKey";
-import Status from "../interfaces/Status";
+import Priority from "../interfaces/Status";
 
-const useStatus = () => {
-  const [statuses, setStatuses] = useState<Status[]>([]);
+const usePriority = () => {
+  const [priorities, setPriorities] = useState<Priority[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const token = apiKey;
-  const url = `https://momentum.redberryinternship.ge/api/statuses`;
+  const url = `https://momentum.redberryinternship.ge/api/priorities`;
 
   useEffect(() => {
-    const fetchStatuses = async () => {
+    const fetchPriorities = async () => {
       try {
         setLoading(true);
         setError(null);
@@ -28,7 +28,7 @@ const useStatus = () => {
         }
 
         const json = await res.json();
-        setStatuses(json);
+        setPriorities(json);
       } catch (err: any) {
         console.log(err);
         setError(err.message);
@@ -37,10 +37,10 @@ const useStatus = () => {
       }
     };
 
-    fetchStatuses();
+    fetchPriorities();
   }, []);
 
-  return { statuses, loading, error };
+  return { priorities, loading, error };
 };
 
-export default useStatus;
+export default usePriority;

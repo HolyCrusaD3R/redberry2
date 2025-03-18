@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import apiKey from "../keys/apiKey";
-import Status from "../interfaces/Status";
+import Department from "../interfaces/Department";
 
-const useStatus = () => {
-  const [statuses, setStatuses] = useState<Status[]>([]);
+const useDepartment = () => {
+  const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const token = apiKey;
-  const url = `https://momentum.redberryinternship.ge/api/statuses`;
+  const url = `https://momentum.redberryinternship.ge/api/departments`;
 
   useEffect(() => {
-    const fetchStatuses = async () => {
+    const fetchDepartments = async () => {
       try {
         setLoading(true);
         setError(null);
@@ -28,7 +28,7 @@ const useStatus = () => {
         }
 
         const json = await res.json();
-        setStatuses(json);
+        setDepartments(json);
       } catch (err: any) {
         console.log(err);
         setError(err.message);
@@ -37,10 +37,10 @@ const useStatus = () => {
       }
     };
 
-    fetchStatuses();
+    fetchDepartments();
   }, []);
 
-  return { statuses, loading, error };
+  return { departments, loading, error };
 };
 
-export default useStatus;
+export default useDepartment;
