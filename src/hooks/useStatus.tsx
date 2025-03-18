@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
 import apiKey from "../keys/apiKey";
-import Task from "../interfaces/Task";
 
-type TaskListResponse = Task[];
-type SingleTaskResponse = Task;
-type ApiResponse = TaskListResponse | SingleTaskResponse;
+interface Status {
+  id: number;
+  name: string;
+}
 
-export default function useTask(id: number | null) {
-  const [data, setData] = useState<ApiResponse | null>(null);
+const useStatus = () => {
+  const [statuses, setStatuses] = useState<Status[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const token = apiKey;
-
-  const url = id
-    ? `https://momentum.redberryinternship.ge/api/tasks/${id}`
-    : `https://momentum.redberryinternship.ge/api/tasks`;
+  const url = `https://momentum.redberryinternship.ge/api/statuses`;
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchStatuses = async () => {
       try {
         setLoading(true);
         setError(null);
@@ -35,17 +32,19 @@ export default function useTask(id: number | null) {
         }
 
         const json = await res.json();
-        setData(json);
+        setStatuses(json);
       } catch (err: any) {
-        console.error(err);
+        console.log(err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    fetchData();
-  }, [id]);
+    fetchStatuses();
+  }, []);
 
-  return { data, loading, error };
-}
+  return { statuses, loading, error };
+};
+
+export default useStatus;

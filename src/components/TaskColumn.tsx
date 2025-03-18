@@ -1,5 +1,4 @@
-import clsx from "clsx";
-
+// import clsx from "clsx";
 function TaskColumn({
   title,
   backgroundColor,
@@ -12,14 +11,18 @@ function TaskColumn({
   return (
     <div className="flex flex-col items-center">
       <div
-        className={clsx(
-          "w-[381px] text-center rounded py-[15px]",
-          `bg-${backgroundColor}`
-        )}
+        className="w-[381px] text-center rounded-[10px] py-[15px]"
+        style={{ backgroundColor: backgroundColor }}
+        // className={clsx(
+        //   "w-[381px] text-center rounded py-[15px] ",
+        //   `bg-${backgroundColor}`
+        // )}
       >
-        <h3 className="text-[20px] font-firago font-medium">{title}</h3>
+        <h3 className="text-[20px] font-firago font-medium text-white">
+          {title}
+        </h3>
       </div>
-      <div className="mt-[30px]">{children}</div>
+      <div className="w-full">{children}</div>
     </div>
   );
 }

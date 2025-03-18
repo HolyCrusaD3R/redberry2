@@ -1,10 +1,19 @@
 import useTask from "../hooks/useTask";
+import useStatus from "../hooks/useStatus";
 import Skeleton from "./Skeleton";
+import TaskColumn from "./TaskColumn";
+import TaskCard from "./TaskCard";
 
 function TaskPage() {
+  const backgroundColors: Record<number, string> = {
+    1: "#F7BC30",
+    2: "#FB5607",
+    3: "#FF006E",
+    4: "#3A86FF",
+  };
   const { data, loading, error } = useTask(null);
-
-  if (error) {
+  const { statuses, loading: statusLoading, error: statusError } = useStatus();
+  if (error || statusError) {
     return (
       <section className="w-[1680px] mx-auto mt-12">
         <p className="text-lg text-[#021526CC]">
@@ -14,13 +23,21 @@ function TaskPage() {
     );
   }
 
-  if (loading) {
+  if (loading || statusLoading) {
     return (
       <section className="grid grid-cols-4 gap-5 w-[1600px] mx-auto mb-20 mt-12">
         <Skeleton />
         <Skeleton />
         <Skeleton />
         <Skeleton />
+      </section>
+    );
+  }
+
+  if (!statuses) {
+    return (
+      <section className="w-[1600px] mx-auto">
+        <p className="text-lg text-[#021526CC]">სტატუსები არ იძებნება</p>
       </section>
     );
   }
@@ -35,21 +52,36 @@ function TaskPage() {
     );
   }
   console.log(data);
+  console.log(statuses);
   return (
     <section className="w-full">
       <div className="w-[1680px] mx-auto mt-[40px]">
-        <h2 className="text-[31px] font-firago font-semibold">
-          დავალებების გვერდი
-        </h2>
-        {Array.isArray(data) &&
-          data.map((task: any) => (
-            <div key={task.id} className="mt-[40px]">
-              <h3 className="text-[20px] font-firago font-medium">
-                {task.name}
-              </h3>
-              <p className="text-[#021526CC] mt-[10px]">{task.description}</p>
-            </div>
-          ))}
+        <div className="">
+          <h2 className="text-[31px] font-firago font-semibold">
+            დავალებების გვერდი
+          </h2>
+        </div>
+        <div className="flex flex-row justify-between mt-[79px]">
+          {statuses.map((status) => {
+            const filteredData = Array.isArray(data)
+              ? data.filter((task) => task.status.id === status.id)
+              : [];
+            return (
+              <TaskColumn
+                key={status.id}
+                title={status.name}
+                backgroundColor={backgroundColors[status.id]}
+              >
+                {filteredData.map((task) => (
+                  <TaskCard
+                    task={task}
+                    borderColor={backgroundColors[status.id]}
+                  />
+                ))}
+              </TaskColumn>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
