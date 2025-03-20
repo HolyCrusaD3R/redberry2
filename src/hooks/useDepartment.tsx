@@ -5,7 +5,7 @@ import Department from "../interfaces/Department";
 const useDepartment = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const token = apiKey;
   const url = `https://momentum.redberryinternship.ge/api/departments`;
 
@@ -40,7 +40,9 @@ const useDepartment = () => {
     fetchDepartments();
   }, []);
 
-  return { departments, loading, error };
+  function changeDepartments() {}
+
+  return { departments, loading, error, changeDepartments };
 };
 
 export default useDepartment;

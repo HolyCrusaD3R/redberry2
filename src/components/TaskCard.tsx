@@ -37,7 +37,7 @@ const TaskCard = ({
   return (
     <div
       key={task.id}
-      className="mt-[30px]  max-w-[381px] h-[217px] max-h-[217px] border-[1px] border-solid rounded-[15px] p-[20px]"
+      className="mt-[30px]  max-w-[381px] max-h-[240px] border-[1px] border-solid rounded-[15px] p-[20px]"
       style={{ borderColor }}
     >
       <div className="flex flex-row justify-between">

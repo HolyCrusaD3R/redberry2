@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import apiKey from "../keys/apiKey";
-import Priority from "../interfaces/Status";
+import Priority from "../interfaces/Priority";
 
 const usePriority = () => {
   const [priorities, setPriorities] = useState<Priority[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const token = apiKey;
   const url = `https://momentum.redberryinternship.ge/api/priorities`;
 

@@ -6,7 +6,7 @@ import NewEmployee from "../interfaces/NewEmployee";
 const useEmployees = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const token = apiKey;
   const url = `https://momentum.redberryinternship.ge/api/employees`;
 
@@ -46,13 +46,18 @@ const useEmployees = () => {
       setLoading(true);
       setError(null);
 
+      const formData = new FormData();
+      formData.append("name", employeeData.name);
+      formData.append("surname", employeeData.surname);
+      formData.append("avatar", employeeData.avatar);
+      formData.append("department_id", employeeData.department_id.toString());
+
       const res = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(employeeData),
+        body: formData,
       });
 
       if (!res.ok) {
