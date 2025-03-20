@@ -1,11 +1,14 @@
 import Header from "../components/Header";
 import TaskPage from "../components/TaskPage";
+import { FilterProvider } from "../contexts/FilterContext";
 
 function HomePage() {
   return (
     <>
       <Header />
-      <TaskPage />
+      <FilterProvider>
+        <TaskPage />
+      </FilterProvider>
     </>
   );
 }

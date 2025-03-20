@@ -4,6 +4,7 @@ import useDepartment from "../hooks/useDepartment";
 import Skeleton from "./Skeleton";
 import TaskColumn from "./TaskColumn";
 import TaskCard from "./TaskCard";
+import { useFilterContext } from "../contexts/FilterContext";
 
 function TaskPage() {
   const backgroundColors: Record<number, string> = {
