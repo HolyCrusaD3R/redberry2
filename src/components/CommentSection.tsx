@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import useComment from "../hooks/useComment";
 
 import LeftArr from "../assets/LeftArr.svg";

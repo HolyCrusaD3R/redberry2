@@ -3,7 +3,6 @@ import { useState, useEffect, FormEvent, useRef } from "react";
 import ImageUpload from "./ImageUpload";
 import useDepartment from "../hooks/useDepartment";
 import useEmployees from "../hooks/useEmployee";
-import Department from "../interfaces/Department";
 import Dropdown_active from "../assets/Dropdown_active.svg";
 import Dropdown_passive from "../assets/Dropdown_passive.svg";
 import CloseX from "../assets/CloseX.svg";
@@ -20,7 +19,7 @@ interface ModalAgentProps {
 }
 
 export default function ModalAgent({ onClose, onSubmit }: ModalAgentProps) {
-  const { departments, loading: loadingDepartments } = useDepartment();
+  const { departments } = useDepartment();
   const { createEmployee, loading: loadingEmployeeCreation } = useEmployees();
   const [activeDropdown, setActiveDropdown] = useState("");
 
@@ -351,7 +350,7 @@ export default function ModalAgent({ onClose, onSubmit }: ModalAgentProps) {
                 <div className="left-[-1px] bottom-0 translate-y-full rounded-bl-md rounded-br-md flex flex-col absolute z-50 w-full border border-customGrayAlt overflow-hidden">
                   <div className="max-h-[200px] overflow-y-auto">
                     {departments &&
-                      departments.map((dept, index) => {
+                      departments.map((dept) => {
                         return (
                           <div
                             key={dept.id}
