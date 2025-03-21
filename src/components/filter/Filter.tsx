@@ -9,8 +9,7 @@ import FilterItem from "./FilterItem";
 import Department from "@/interfaces/Department";
 import Priority from "@/interfaces/Priority";
 import Employee from "@/interfaces/Employee";
-import { useState } from "react";
-import { useFilterContext } from "@/contexts/FilterContext";
+import { FilterTypes, useFilterContext } from "@/contexts/FilterContext";
 
 interface BaseItem {
   id: number;
@@ -26,7 +25,7 @@ interface ItemWithSurname extends BaseItem {
 }
 
 interface FilterCategory {
-  id: string;
+  id: FilterTypes;
   label: string;
   items: Array<BaseItem | ItemWithAvatar | ItemWithSurname>;
 }
@@ -52,26 +51,13 @@ export default function Filter({
       items: priorities,
     },
     {
-      id: "coworkers",
+      id: "employees",
       label: "თანამშრომელი",
       items: employees,
     },
   ];
 
-  const { filterTasks } = useFilterContext();
-  const [selected, setSelected] = useState<string[]>([]);
-
-  function changeSelected(id: string) {
-    setSelected((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
-      } else {
-        return [...prev, id];
-      }
-    });
-  }
-
-  console.log(selected);
+  const { changeSelected, selected, filterTasks } = useFilterContext();
 
   return (
     <NavigationMenu className="border border-[#DEE2E6] rounded-[10px] mt-[52px] mb-[80px]">
@@ -91,15 +77,19 @@ export default function Filter({
                         ? `${item.name} ${item.surname}`
                         : item.name
                     }
-                    id={item.id + item.name}
+                    id={String(item.id)}
                     avatar={"avatar" in item ? item.avatar : undefined}
-                    isChecked={selected.includes(item.id + item.name)}
+                    isChecked={selected[category.id].includes(String(item.id))}
                     changeSelected={changeSelected}
+                    type={category.id}
                   />
                 ))}
               </ul>
 
-              <button className="bg-[#8338EC] text-white px-[50px] py-2 rounded-full cursor-pointer transition-colors duration-200 hover:bg-[#6a2c91] absolute right-[30px] bottom-[20px]">
+              <button
+                onClick={filterTasks}
+                className="bg-[#8338EC] text-white px-[50px] py-2 rounded-full cursor-pointer transition-colors duration-200 hover:bg-[#6a2c91] absolute right-[30px] bottom-[20px]"
+              >
                 არჩევა
               </button>
             </NavigationMenuContent>

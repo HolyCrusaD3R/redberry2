@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Gallery from "../assets/Gallery-export.svg";
 
 interface ImageUploadProps {
   setImage: (file: File | null) => void;
@@ -6,16 +7,44 @@ interface ImageUploadProps {
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const validateFile = (file: File): boolean => {
+    const maxSize = 600 * 1024;
+    if (file.size > maxSize) {
+      setError(`ფაილის ზომა აღემატება 600KB-ს`);
+      return false;
+    }
+
+    const validTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/gif",
+      "image/webp",
+    ];
+    if (!validTypes.includes(file.type)) {
+      setError(`გთხოვთ ატვირთოთ სურათის ფაილი (JPEG, PNG, GIF, WEBP)`);
+      return false;
+    }
+
+    setError(null);
+    return true;
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      if (validateFile(file)) {
+        setImage(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        e.target.value = "";
+      }
     }
   };
 
@@ -23,18 +52,21 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      if (validateFile(file)) {
+        setImage(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 
   const handleRemoveImage = () => {
     setImage(null);
     setPreview(null);
+    setError(null);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -42,12 +74,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <label className="block font-firago font-medium text-[14px] text-customGreySecondary">
         ავატარი*
       </label>
       <div
-        className={`w-[788px] h-[120px] border-2 border-dashed border-gray-300 rounded-lg mt-2 flex items-center justify-center ${
+        className={`w-full h-[120px] border-2 border-dashed ${
+          error ? "border-customRed" : "border-gray-300"
+        } rounded-lg mt-2 flex items-center justify-center ${
           preview ? "justify-center p-2" : ""
         }`}
         onDrop={handleDrop}
@@ -63,7 +97,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
             <button
               type="button"
               onClick={handleRemoveImage}
-              className="absolute -bottom-2 -right-2 bg-white p-1 rounded-full border border-gray-300"
+              className="absolute -bottom-2 -right-2 bg-white p-1 rounded-full border border-gray-300 cursor-pointer"
             >
               <svg
                 width="24"
@@ -108,41 +142,22 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
           </div>
         ) : (
           <label className="cursor-pointer flex flex-col items-center justify-center w-full h-full">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                stroke="#2D3648"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 8V16"
-                stroke="#2D3648"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8 12H16"
-                stroke="#2D3648"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {/* <span className="text-gray-500">დაურთეთ ან აირჩიეთ</span> */}
+            <img src={Gallery} alt="Upload gallery icon" />
+            <span className="text-customGreyImageUpload font-firago font-normal mt-[5px]">
+              ატვირთე ფოტო
+            </span>
             <input
               type="file"
               className="hidden"
+              accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
               onChange={handleImageUpload}
             />
           </label>
         )}
       </div>
+      {error && (
+        <div className="text-customRed text-sm mt-1 font-firago">{error}</div>
+      )}
     </div>
   );
 };

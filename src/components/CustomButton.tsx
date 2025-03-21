@@ -27,22 +27,22 @@ function CustomButton({
 
   // Define styles based on props
   const borderColor =
-    isPrimary && hovered ? "border-customRedAlt" : "border-customRed";
+    isPrimary && hovered ? "border-primary" : "border-secondary";
   const backgroundColor = !isPrimary
     ? hovered
-      ? "bg-customRed"
-      : "bg-white"
+      ? "border-secondary"
+      : "border-primary"
     : hovered
-    ? "bg-customRedAlt"
-    : "bg-customRed";
-  const textColor = !isPrimary && !hovered ? "text-customRed" : "text-white";
+    ? "bg-primary text-white"
+    : "bg-secondary text-white";
+  const textColor = !isPrimary && !hovered ? "" : "";
   const cursorStyle = disabled
     ? "opacity-50 cursor-not-allowed"
     : "cursor-pointer";
 
   return (
     <div
-      className={`py-[14px] px-4 text-base/[19.2px] font-firaGo font-medium border rounded-[10px] 
+      className={`py-[11.5px] px-4 text-base font-firago font-normal border rounded-[5px] flex flex-row items-center 
         ${borderColor} ${backgroundColor} ${textColor} ${cursorStyle} text-nowrap`}
       onMouseEnter={() => handleHover(true)}
       onMouseLeave={() => handleHover(false)}

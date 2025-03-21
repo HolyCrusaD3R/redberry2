@@ -1,4 +1,3 @@
-import useTask from "../hooks/useTask";
 import useStatus from "../hooks/useStatus";
 import useDepartment from "../hooks/useDepartment";
 import Skeleton from "./Skeleton";
@@ -7,6 +6,8 @@ import TaskCard from "./TaskCard";
 import Filter from "./filter/Filter";
 import useEmployees from "@/hooks/useEmployee";
 import usePriority from "@/hooks/usePriority";
+import { Link } from "react-router-dom";
+import { useFilterContext } from "@/contexts/FilterContext";
 
 export default function TaskPage() {
   const backgroundColors: Record<number, string> = {
@@ -15,7 +16,7 @@ export default function TaskPage() {
     3: "#FF006E",
     4: "#3A86FF",
   };
-  const { data, loading, error } = useTask(null);
+  const { data, loading, error } = useFilterContext();
   const { statuses, loading: statusLoading, error: statusError } = useStatus();
   const {
     departments: departments,
@@ -73,13 +74,10 @@ export default function TaskPage() {
   if (!priorities || priorityError) {
     return <NotFound text="პრიორიტეტები არ იძებნება" />;
   }
-  if (!data || (Array.isArray(data) && data.length === 0)) {
-    return <NotFound text="დავალებები არ იძებნება" />;
-  }
 
   return (
     <section className="w-full">
-      <div className="w-[1680px] mx-auto mt-[40px]">
+      <div className="w-[1680px] mx-auto mt-[40px] mb-[100px]">
         <div className="">
           <h2 className="text-[31px] font-firago font-semibold">
             დავალებების გვერდი
@@ -103,16 +101,25 @@ export default function TaskPage() {
                 title={status.name}
                 backgroundColor={backgroundColors[status.id]}
               >
-                {filteredData.map((task) => (
-                  <TaskCard
-                    task={task}
-                    borderColor={backgroundColors[status.id]}
-                  />
-                ))}
+                {Array.isArray(data) &&
+                  data.length !== 0 &&
+                  filteredData.map((task) => (
+                    <Link to={`/task/${task.id}`} key={task.id}>
+                      <TaskCard
+                        task={task}
+                        borderColor={backgroundColors[status.id]}
+                      />
+                    </Link>
+                  ))}
               </TaskColumn>
             );
           })}
         </div>
+        {Array.isArray(data) && data.length === 0 && (
+          <p className="text-[#021526CC] mt-4 ml-4 text-xl">
+            დავალებები არ იძებნება
+          </p>
+        )}
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import { FilterTypes } from "@/contexts/FilterContext";
 import { Checkbox } from "../ui/checkbox";
 
 export default function FilterItem({
@@ -6,15 +7,17 @@ export default function FilterItem({
   id,
   isChecked,
   changeSelected,
+  type,
 }: {
   avatar?: string;
   label: string;
   id: string;
   isChecked: boolean;
-  changeSelected: (id: string) => void;
+  changeSelected: (id: string, type: FilterTypes) => void;
+  type: FilterTypes;
 }) {
   function handleCheckboxChange() {
-    changeSelected(id);
+    changeSelected(id, type);
   }
 
   return (

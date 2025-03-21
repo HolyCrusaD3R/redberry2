@@ -10,7 +10,15 @@
 @font-face {
   font-family: "Fredoka One";
   src: url("./fonts/Fredoka/static/Fredoka-Regular.ttf") format("truetype");
-  font-weight: normal;
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FiraGo";
+  src: url("./fonts/firago/ttf/firago-latin-300-normal.ttf") format("truetype");
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
@@ -18,7 +26,7 @@
 @font-face {
   font-family: "FiraGo";
   src: url("./fonts/firago/ttf/firago-latin-400-normal.ttf") format("truetype");
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -39,6 +47,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url("./fonts/Inter/Inter-VariableFont_opszwght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-primary: #8338ec;
   --color-secondary: #b588f4;
@@ -47,8 +63,10 @@
   --color-customGrey: #6c757d;
   --color-customGreyHeadline: #212529;
   --color-customGreySecondary: #343a40;
+  --color-customGreyImageUpload: #0d0f10;
   --font-fredoka: "Fredoka One", cursive;
   --font-firago: "FiraGo", sans-serif;
+  --font-inter: "Inter", sans-serif;
 }
 
 :root {
